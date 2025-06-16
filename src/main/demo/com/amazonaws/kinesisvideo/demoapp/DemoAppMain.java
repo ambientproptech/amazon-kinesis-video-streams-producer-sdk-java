@@ -48,14 +48,26 @@ public final class DemoAppMain {
             // create a media source. this class produces the data and pushes it into
             // Kinesis Video Producer lower level components
             final MediaSource mediaSource = createImageFileMediaSource();
-            final KinesisVideoProducerStream kStream = mediaSource.getMediaSourceSink().getProducerStream();
-            kStream.putFragmentMetadata("AWS_KINESISVIDEO_NOTIFICATION", "true", false);
 
             // Audio/Video sample is available for playback on HLS (Http Live Streaming)
             //final MediaSource mediaSource = createFileMediaSource();
 
             // register media source with Kinesis Video Client
             kinesisVideoClient.registerMediaSource(mediaSource);
+
+            final MediaSourceSink sink = mediaSource.getMediaSourceSink();
+            if (sink != null) {
+                final KinesisVideoProducerStream producerStream = sink.getProducerStream();
+                if (producerStream != null){
+                    producerStream.putFragmentMetadata("AWS_KINESISVIDEO_NOTIFICATION", "true", false);
+                    System.out.println("put AWS_INESISVIDEO_NOTIFICATION fragment!");
+                }
+                else {
+                    System.out.println("producer stream is null!!!");
+                }
+            } else {
+                System.out.println("sink is null!!!!!");
+            }
 
             // start streaming
             mediaSource.start();
