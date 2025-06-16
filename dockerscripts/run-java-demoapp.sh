@@ -9,7 +9,7 @@ fi
 ACCESS_KEY=$1
 SECRET_KEY=$2
 KVS_STREAM=$3
-mvn package
+mvn package -DskipTests
 # Create a temporary filename in /tmp directory
 jar_files=$(mktemp)
 # Create classpath string of dependencies from the local repository to a file
