@@ -5,6 +5,8 @@ import com.amazonaws.kinesisvideo.demoapp.contants.DemoTrackInfos;
 import com.amazonaws.kinesisvideo.internal.client.mediasource.MediaSource;
 import com.amazonaws.kinesisvideo.common.exception.KinesisVideoException;
 import com.amazonaws.kinesisvideo.demoapp.auth.AuthHelper;
+import com.amazonaws.kinesisvideo.internal.client.mediasource.MediaSourceSink;
+import com.amazonaws.kinesisvideo.internal.producer.KinesisVideoProducerStream;
 import com.amazonaws.kinesisvideo.java.client.KinesisVideoJavaClientFactory;
 import com.amazonaws.kinesisvideo.java.mediasource.file.AudioVideoFileMediaSource;
 import com.amazonaws.kinesisvideo.java.mediasource.file.AudioVideoFileMediaSourceConfiguration;
@@ -46,6 +48,8 @@ public final class DemoAppMain {
             // create a media source. this class produces the data and pushes it into
             // Kinesis Video Producer lower level components
             final MediaSource mediaSource = createImageFileMediaSource();
+            final KinesisVideoProducerStream kStream = mediaSource.getMediaSourceSink().getProducerStream();
+            kStream.putFragmentMetadata("AWS_KINESISVIDEO_NOTIFICATION", "true", false);
 
             // Audio/Video sample is available for playback on HLS (Http Live Streaming)
             //final MediaSource mediaSource = createFileMediaSource();
