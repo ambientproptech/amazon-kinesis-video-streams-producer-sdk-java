@@ -29,8 +29,9 @@ RUN make
 
 WORKDIR /opt/
 # Checkout latest Kinesis Video Streams Producer SDK (Java)
-RUN git clone https://github.com/ambientproptech/amazon-kinesis-video-streams-producer-sdk-java.git && git checkout -t origin/fermin-test
+RUN git clone https://github.com/ambientproptech/amazon-kinesis-video-streams-producer-sdk-java.git
 WORKDIR /opt/amazon-kinesis-video-streams-producer-sdk-java
+RUN git checkout -t origin/fermin-test
 # Start the demoapplication to send video streams
 COPY run-java-demoapp.sh /opt/amazon-kinesis-video-streams-producer-sdk-java/
 RUN chmod a+x /opt/amazon-kinesis-video-streams-producer-sdk-java/run-java-demoapp.sh
